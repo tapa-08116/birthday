@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scratch Birthday</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background-color: #ffe5cc;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 360px;
+    height: 90%;
+    background-color: #ffe5cc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .middle-text {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .small-text {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .big-text {
+    font-size: 56px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    animation: blink 1s infinite;
+  }
+
+  .show {
+    opacity: 1;
+  }
+
+  @keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="middle-text">ハッピーバースデー 21歳！</div>
+  <div class="small-text">ダブルチャンスキャンペーン</div>
+  <div id="result" class="big-text">当たり</div>
+
+  <canvas id="scratch"></canvas>
+</div>
+
+<script>
+  const canvas = document.getElementById("scratch");
+  const ctx = canvas.getContext("2d");
+  const container = document.querySelector(".container");
+  const result = document.getElementById("result");
+
+  canvas.width = container.offsetWidth;
+  canvas.height = container.offsetHeight;
+
+  // スクラッチ層
+  ctx.fillStyle = "#b0b0b0";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = "destination-out";
+
+  let scratching = false;
+
+  function scratch(x, y) {
+    ctx.beginPath();
+    ctx.arc(x, y, 20, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  canvas.addEventListener("touchstart", () => scratching = true);
+  canvas.addEventListener("touchend", () => scratching = false);
+
+  canvas.addEventListener("touchmove", e => {
+    if (!scratching) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.touches[0].clientX - rect.left;
+    const y = e.touches[0].clientY - rect.top;
+    scratch(x, y);
+    checkClear();
+  });
+
+  function checkClear() {
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let cleared = 0;
+
+    for (let i = 3; i < imageData.data.length; i += 4) {
+      if (imageData.data[i] === 0) cleared++;
+    }
+
+    if (cleared > imageData.data.length / 8) {
+      canvas.style.display = "none";
+      result.classList.add("show");
+    }
+  }
+</script>
+
+</body>
+</html>
