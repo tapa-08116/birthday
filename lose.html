@@ -9,7 +9,7 @@
   body {
     margin: 0;
     height: 100vh;
-    background-color: #dff3ff;
+    background-color: #dff3ff; /* 淡い水色 */
     font-family: sans-serif;
     display: flex;
     justify-content: center;
@@ -22,6 +22,18 @@
     text-align: center;
   }
 
+  .middle-text {
+    font-size: 26px;
+    margin-bottom: 8px;
+    color: #0066cc;
+  }
+
+  .small-text {
+    font-size: 14px;
+    margin-bottom: 24px;
+    color: #0066cc;
+  }
+
   .lose-text {
     font-size: 56px;
     font-weight: bold;
@@ -31,24 +43,12 @@
   }
 
   @keyframes shock {
-    0% {
-      transform: translateY(-40px);
-    }
-    30% {
-      transform: translateY(0);
-    }
-    45% {
-      transform: translateX(-10px);
-    }
-    60% {
-      transform: translateX(10px);
-    }
-    75% {
-      transform: translateX(-6px);
-    }
-    100% {
-      transform: translateX(0);
-    }
+    0% { transform: translateY(-40px); }
+    30% { transform: translateY(0); }
+    45% { transform: translateX(-10px); }
+    60% { transform: translateX(10px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
   }
 </style>
 </head>
@@ -56,6 +56,8 @@
 <body>
 
 <div class="container">
+  <div class="middle-text">ハッピーバースデー 21歳！</div>
+  <div class="small-text">ダブルチャンスキャンペーン</div>
   <div class="lose-text">はずれ…</div>
 </div>
 
